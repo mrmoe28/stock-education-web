@@ -5,11 +5,9 @@ import { motion } from 'framer-motion'
 import { 
   ChartBarIcon, 
   CurrencyDollarIcon, 
-  TrendingUpIcon, 
-  TrendingDownIcon,
+  ArrowTrendingUpIcon, 
   ArrowUpIcon,
-  ArrowDownIcon,
-  EyeIcon
+  ArrowDownIcon
 } from '@heroicons/react/24/outline'
 
 export default function Dashboard() {
@@ -146,8 +144,8 @@ export default function Dashboard() {
 
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <div className="text-sm font-medium text-gray-600">Today's P&L</div>
-              <TrendingUpIcon className="h-5 w-5 text-gray-400" />
+              <div className="text-sm font-medium text-gray-600">Today&apos;s P&L</div>
+              <ArrowTrendingUpIcon className="h-5 w-5 text-gray-400" />
             </div>
             <div className={`text-3xl font-bold mb-1 ${
               dailyChange >= 0 ? 'text-green-600' : 'text-red-600'
