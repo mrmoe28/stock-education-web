@@ -1,23 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChartBarIcon, BookOpenIcon, CurrencyDollarIcon, UserGroupIcon, TrophyIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
+import { ChartBarIcon, CurrencyDollarIcon, TrendingUpIcon, GlobeAltIcon, ClockIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Features from '@/components/Features'
-import HowItWorks from '@/components/HowItWorks'
+import MarketOverview from '@/components/MarketOverview'
 import Stats from '@/components/Stats'
 import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
       <Header />
       <Hero />
+      <MarketOverview />
       <Features />
       <Stats />
-      <HowItWorks />
       <Footer />
     </div>
   )
