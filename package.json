@@ -6,7 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "type-check": "tsc --noEmit",
+    "pre-push": ".claude/scripts/monitor-deployment.sh",
+    "check-errors": "node .claude/scripts/check-errors.js",
+    "auto-fix": "node .claude/scripts/auto-fix.js",
+    "claude-monitor": ".claude/scripts/monitor-deployment.sh"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",

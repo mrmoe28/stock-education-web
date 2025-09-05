@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "on_git_push": "npm run build && npm run lint && claude monitor-deployment",
+    "on_deployment": "claude check-errors",
+    "on_error_detected": "claude fix-errors"
+  },
+  "monitoring": {
+    "deployment_url": "https://stock-education-ijgyb1jfe-ekoapps.vercel.app",
+    "check_interval": "5m",
+    "auto_fix": true,
+    "notify_on_fix": true
+  },
+  "workflows": {
+    "pre_push": ["build", "lint", "test"],
+    "post_deployment": ["health_check", "error_scan", "performance_check"]
+  }
+}

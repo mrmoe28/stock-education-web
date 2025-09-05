@@ -1,0 +1,42 @@
+name: Post-Deployment Monitoring
+on:
+  deployment:
+    description: "Monitors deployment and fixes issues automatically"
+
+steps:
+  - name: "Wait for Deployment"
+    run: sleep 30
+    description: "Allow deployment to stabilize"
+    
+  - name: "Health Check"
+    run: .claude/scripts/monitor-deployment.sh
+    continue_on_error: false
+    
+  - name: "Error Detection"
+    run: node .claude/scripts/check-errors.js
+    continue_on_error: true
+    
+  - name: "Performance Check"
+    run: |
+      echo "🔍 Checking page load performance..."
+      curl -w "@.claude/curl-format.txt" -o /dev/null -s "https://stock-education-ijgyb1jfe-ekoapps.vercel.app"
+    continue_on_error: true
+    
+  - name: "Auto-Fix on Error"
+    run: node .claude/scripts/auto-fix.js
+    trigger_on: error_detected
+    continue_on_error: true
+    
+monitoring:
+  interval: "5m"
+  endpoints:
+    - url: "https://stock-education-ijgyb1jfe-ekoapps.vercel.app"
+      expected_status: 200
+    - url: "https://stock-education-ijgyb1jfe-ekoapps.vercel.app/api/auth/session"
+      expected_status: 200
+      
+notifications:
+  channels: ["console", "log"]
+  on_error: "❌ Deployment error detected - triggering auto-fix"
+  on_fix_success: "✅ Auto-fix successful - deployment restored"
+  on_fix_failure: "🚨 Auto-fix failed - manual intervention required"
