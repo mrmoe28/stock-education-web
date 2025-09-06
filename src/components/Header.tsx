@@ -47,7 +47,7 @@ export default function Header() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
           <Link
-            href="/auth/login"
+            href="/signin"
             className="text-sm font-semibold leading-6 text-gray-900 hover:text-green-600 transition-colors"
           >
             Sign In
@@ -92,7 +92,7 @@ export default function Header() {
                 <Link href="/trading" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" onClick={() => setMobileMenuOpen(false)}>Trade</Link>
               </div>
               <div className="py-6 space-y-4">
-                <Link href="/auth/login" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
+                <Link href="/signin" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
                 <Link href="/auth/register" className="block rounded-full bg-gradient-to-r from-green-600 to-blue-600 px-6 py-3 text-center text-base font-semibold text-white shadow-sm" onClick={() => setMobileMenuOpen(false)}>Start Trading</Link>
               </div>
             </div>
