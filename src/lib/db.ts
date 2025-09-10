@@ -1,23 +1,24 @@
-import { Pool } from 'pg'
+import pkg from 'pg';
+const { Pool } = pkg;
 
-let pool: Pool | null = null
+let pool: any = null;
 
 export function getDb() {
   if (!pool) {
     pool = new Pool({
       connectionString: process.env.DATABASE_URL,
-      ssl: {
+      ssl: process.env.NODE_ENV === 'production' ? {
         require: true,
         rejectUnauthorized: false,
-      },
-    })
+      } : false,
+    });
   }
-  return pool
+  return pool;
 }
 
 export async function initDatabase() {
-  const db = getDb()
-  
+  const db = getDb();
+
   try {
     // Create users table if it doesn't exist
     await db.query(`
@@ -31,7 +32,7 @@ export async function initDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
-    `)
+    `);
 
     // Create password reset tokens table
     await db.query(`
@@ -42,11 +43,11 @@ export async function initDatabase() {
         expires_at TIMESTAMP NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
-    `)
+    `);
 
-    console.log('Database tables initialized successfully')
+    console.log('Database tables initialized successfully');
   } catch (error) {
-    console.error('Database initialization error:', error)
-    throw error
+    console.error('Database initialization error:', error);
+    throw error;
   }
 }
