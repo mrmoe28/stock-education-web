@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
+import { getDb, initDatabase } from '@/lib/db'
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,18 +14,47 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // For now, just simulate login (you'll need to add database integration)
-    // In a real app, you'd check against your database
-    if (email === 'demo@example.com' && password === 'demo123') {
+    const db = getDb()
+    
+    // Initialize database tables if needed
+    await initDatabase()
+    
+    // Find user in database
+    const result = await db.query(
+      'SELECT id, name, email, password FROM users WHERE email = $1',
+      [email.toLowerCase()]
+    )
+    
+    if (result.rows.length === 0) {
       return NextResponse.json(
-        { message: 'Login successful' },
-        { status: 200 }
+        { message: 'Invalid email or password' },
+        { status: 401 }
+      )
+    }
+    
+    const user = result.rows[0]
+    
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, user.password)
+    
+    if (!isValidPassword) {
+      return NextResponse.json(
+        { message: 'Invalid email or password' },
+        { status: 401 }
       )
     }
 
+    // Return user data (excluding password)
     return NextResponse.json(
-      { message: 'Invalid email or password' },
-      { status: 401 }
+      { 
+        message: 'Login successful',
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        }
+      },
+      { status: 200 }
     )
 
   } catch (error) {
